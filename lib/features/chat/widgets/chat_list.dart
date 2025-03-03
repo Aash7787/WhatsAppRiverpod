@@ -6,6 +6,7 @@ import 'package:flutter_whatsaap_clone_riverpod/models/message.dart';
 import 'package:flutter_whatsaap_clone_riverpod/shared/info.dart';
 import 'package:flutter_whatsaap_clone_riverpod/shared/widgets/receiver_message_cart.dart';
 import 'package:flutter_whatsaap_clone_riverpod/shared/widgets/sender_message_cart.dart';
+import 'package:intl/intl.dart';
 
 class ChatList extends ConsumerWidget {
   const ChatList(this.receiverId, {super.key});
@@ -24,14 +25,16 @@ class ChatList extends ConsumerWidget {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               final message = snapshot.data![index];
+
+              final timeSent = DateFormat.Hm().format(message.timeSent);
               if (messages[index]['isMe'] == true) {
                 return SenderMessageCart(
-                    message: message.messageId,
-                    date: messages[index]['time'].toString());
+                    message: message.text,
+                    date: timeSent);
               } else {
                 return ReceiverMessageCart(
-                    message: messages[index]['text'].toString(),
-                    date: messages[index]['time'].toString());
+                    message: message.text,
+                    date: timeSent);
               }
             },
           );
