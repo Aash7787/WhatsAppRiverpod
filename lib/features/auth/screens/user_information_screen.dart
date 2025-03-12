@@ -22,6 +22,7 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
   late TextEditingController nameController;
 
   File? image;
+  bool isLoading = false;
 
   void selectImage() async {
     image = await pickImageFromGallery(context);
@@ -32,8 +33,12 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
     String name = nameController.text.trim();
     log(name);
     if (name.isNotEmpty) {
-      ref.read(authControllerProvider)
-      .saveUserDataToFirebase(context, name, image);
+      setState(() {
+        isLoading = true;
+      });
+      ref
+          .read(authControllerProvider)
+          .saveUserDataToFirebase(context, name, image);
     }
   }
 
@@ -99,10 +104,12 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
                   ),
                   const Spacer(),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: IconButton(
                       onPressed: storeUserData,
-                      icon: const Icon(Icons.done),
+                      icon: isLoading
+                          ? const Expanded(child: CircularProgressIndicator())
+                          : const Icon(Icons.done),
                     ),
                   )
                 ],

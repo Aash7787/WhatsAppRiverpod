@@ -33,6 +33,7 @@ class ChatRepository {
         .collection(chats)
         .doc(receiverId)
         .collection(messages)
+        .orderBy(timeSent)
         .snapshots()
         .map(
       (event) {
@@ -40,6 +41,8 @@ class ChatRepository {
         for (final doc in event.docs) {
           messages.add(Message.fromMap(doc.data()));
         }
+        log('${messages[0].toString()} message');
+
         return messages;
       },
     );
@@ -109,7 +112,7 @@ class ChatRepository {
         contactId: senderUserData.uid,
         timeSent: timeSent,
         lastMessage: text);
-    firestore
+    await firestore
         .collection(users)
         .doc(receiverUserData.uid)
         .collection(chats)
@@ -123,10 +126,10 @@ class ChatRepository {
         timeSent: timeSent,
         lastMessage: text);
 
-    firestore
+    await firestore
         .collection(users)
         .doc(auth.currentUser!.uid)
-        .collection('chats')
+        .collection(chats)
         .doc(receiverUserData.uid)
         .set(senderChatContact.toMap());
   }
@@ -149,20 +152,20 @@ class ChatRepository {
         messageId: messageId,
         isSeen: false);
 
-    firestore
+    await firestore
         .collection(users)
-        .doc(auth.currentUser!.uid)
-        .collection(chats)
         .doc(receiverUserId)
+        .collection(chats)
+        .doc(auth.currentUser!.uid)
         .collection(messages)
         .doc(messageId)
         .set(message.toMap());
 
-    firestore
+    await firestore
         .collection(users)
-        .doc(receiverUserId)
-        .collection(chats)
         .doc(auth.currentUser!.uid)
+        .collection(chats)
+        .doc(receiverUserId)
         .collection(messages)
         .doc(messageId)
         .set(message.toMap());

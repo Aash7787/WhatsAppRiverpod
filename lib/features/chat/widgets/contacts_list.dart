@@ -35,7 +35,6 @@ class ContactsList extends ConsumerWidget {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 var chatContactData = snapshot.data![index];
-
                 return ListTileW(
                   record: (
                     name: chatContactData.name,
