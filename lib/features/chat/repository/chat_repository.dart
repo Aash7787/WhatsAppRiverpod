@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whatsaap_clone_riverpod/common/enums/message_enum.dart';
+import 'package:flutter_whatsaap_clone_riverpod/common/repositories/common_firebase_storage_repository.dart';
 import 'package:flutter_whatsaap_clone_riverpod/common/utils/utils.dart';
 import 'package:flutter_whatsaap_clone_riverpod/models/chat_contact.dart';
 import 'package:flutter_whatsaap_clone_riverpod/models/message.dart';
@@ -19,7 +22,6 @@ final chatRepositoryProvider = Provider<ChatRepository>((ref) {
 class ChatRepository {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
-
 
   ChatRepository({required this.auth, required this.firestore});
 
@@ -71,7 +73,6 @@ class ChatRepository {
           userName: senderUser.name,
           receiverUserName: receiverUserData.name,
           messageType: MessageEnum.text);
-
     } catch (e) {
       if (!context.mounted) return;
       showSnackBar(context, text: e.toString());
@@ -163,5 +164,57 @@ class ChatRepository {
         .collection(messages)
         .doc(messageId)
         .set(message.toMap());
+  }
+
+  void sendFileMessage(
+      {required BuildContext context,
+      required File file,
+      required String receiverUserId,
+      required UserModel senderUserData,
+      required Ref ref,
+      required MessageEnum messageEnum}) async {
+    try {
+      final timeSent = DateTime.now();
+
+      final messageId = const Uuid().v1();
+
+      final firebaseRef =
+          '$chats/${messageEnum.type}/${senderUserData.uid}/$receiverUserId/$messageId';
+
+      String fileUrl = await ref
+          .read(commonFirebaseStorageRepositoryProvider)
+          .storeFileToFirebase(firebaseRef, file);
+
+      final userDataMap =
+          await firestore.collection(users).doc(receiverUserId).get();
+
+      final UserModel receiverUserData = UserModel.fromMap(userDataMap.data()!);
+
+      String text = switch (messageEnum) {
+        MessageEnum.image => '📷 Photo',
+        MessageEnum.audio => '🎤 Audio',
+        MessageEnum.video => '🎥 Video',
+        MessageEnum.gif => 'Gif',
+        _ => file.path,
+      };
+
+      _saveDataToContactsSubCollection(
+          senderUserData: senderUserData,
+          receiverUserData: receiverUserData,
+          text: text,
+          timeSent: timeSent);
+
+      _saveMessageToMessageSubCollection(
+          receiverUserId: receiverUserId,
+          text: fileUrl,
+          timeSent: timeSent,
+          messageId: messageId,
+          userName: senderUserData.name,
+          receiverUserName: receiverUserData.name,
+          messageType: messageEnum);
+    } catch (e) {
+      if (!context.mounted) return;
+      showSnackBar(context, text: '$e sendFileMessage chatRep');
+    }
   }
 }

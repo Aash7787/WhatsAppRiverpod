@@ -5,6 +5,9 @@ import 'package:flutter_whatsaap_clone_riverpod/shared/colors.dart';
 import 'package:image_picker/image_picker.dart';
 
 void showSnackBar(BuildContext context, {required String text}) {
+
+  if (!context.mounted) return;
+
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       backgroundColor: appBarColor,
