@@ -64,36 +64,38 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
               const SizedBox(
                 height: 20,
               ),
-              Stack(
-                children: [
-                  image == null
-                      ? const CircleAvatar(
-                          radius: 84,
-                          backgroundImage: CachedNetworkImageProvider(
-                            NetworkImages.personImage,
+              SizedBox(
+                child: Stack(
+                  children: [
+                    image == null
+                        ? const CircleAvatar(
+                            radius: 84,
+                            backgroundImage: CachedNetworkImageProvider(
+                              NetworkImages.personImage,
+                            ),
+                          )
+                        : CircleAvatar(
+                            radius: 84,
+                            backgroundImage: FileImage(image!),
                           ),
-                        )
-                      : CircleAvatar(
-                          radius: 84,
-                          backgroundImage: FileImage(image!),
-                        ),
-                  Positioned(
-                    bottom: -10,
-                    right: 0,
-                    child: IconButton(
-                      onPressed: selectImage,
-                      icon: const Icon(Icons.add_a_photo),
+                    Positioned(
+                      bottom: -10,
+                      right: 0,
+                      child: IconButton(
+                        onPressed: selectImage,
+                        icon: const Icon(Icons.add_a_photo),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Row(
                 children: [
-                  Container(
-                    width: MediaQuery.sizeOf(context).width * 0.80,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 25),
-                    child: Expanded(
+                  Expanded(
+                    child: Container(
+                      width: MediaQuery.sizeOf(context).width * 0.80,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 25),
                       child: TextField(
                         controller: nameController,
                         decoration: const InputDecoration(
@@ -102,13 +104,12 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
                       ),
                     ),
                   ),
-                  const Spacer(),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.only(right: 10),
                     child: IconButton(
                       onPressed: storeUserData,
                       icon: isLoading
-                          ? const Expanded(child: CircularProgressIndicator())
+                          ? const CircularProgressIndicator()
                           : const Icon(Icons.done),
                     ),
                   )

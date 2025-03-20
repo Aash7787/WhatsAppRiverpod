@@ -15,8 +15,8 @@ class ReceiverMessageCart extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: ConstrainedBox(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width - 15),
+        constraints: BoxConstraints(
+            maxWidth: MediaQuery.sizeOf(context).width - 15, minWidth: 110),
         child: Card(
           elevation: 1,
           shape: RoundedRectangleBorder(

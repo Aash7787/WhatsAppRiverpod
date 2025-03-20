@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,8 +8,6 @@ import 'package:flutter_whatsaap_clone_riverpod/models/chat_contact.dart';
 import 'package:flutter_whatsaap_clone_riverpod/shared/colors.dart';
 import 'package:flutter_whatsaap_clone_riverpod/shared/info.dart';
 import 'package:intl/intl.dart';
-
-const _fileName = 'contacts_list';
 
 class ContactsList extends ConsumerWidget {
   const ContactsList({super.key});
@@ -81,7 +77,6 @@ class ListTileW extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 4.0),
       child: InkWell(
         onTap: () {
-          log('message', name: _fileName);
           Navigator.pushNamed(context, MobileChatScreen.route,
               arguments: record);
         },

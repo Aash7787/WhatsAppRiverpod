@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +20,6 @@ class ChatRepository {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
 
-  static const _name = 'ChatRepository';
 
   ChatRepository({required this.auth, required this.firestore});
 
@@ -41,8 +38,6 @@ class ChatRepository {
         for (final doc in event.docs) {
           messages.add(Message.fromMap(doc.data()));
         }
-        log('${messages[0].toString()} message');
-
         return messages;
       },
     );
@@ -77,7 +72,6 @@ class ChatRepository {
           receiverUserName: receiverUserData.name,
           messageType: MessageEnum.text);
 
-      log('function is called $_name ');
     } catch (e) {
       if (!context.mounted) return;
       showSnackBar(context, text: e.toString());

@@ -13,8 +13,8 @@ class SenderMessageCart extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: ConstrainedBox(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width - 15),
+        constraints: BoxConstraints(
+            maxWidth: MediaQuery.sizeOf(context).width - 15, minWidth: 110),
         child: Card(
           elevation: 1,
           shape: RoundedRectangleBorder(
@@ -26,7 +26,7 @@ class SenderMessageCart extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                  left: 10,
+                  left: 5,
                   right: 30,
                   bottom: 20,
                   top: 5,
@@ -40,6 +40,8 @@ class SenderMessageCart extends StatelessWidget {
                 bottom: 4,
                 right: 10,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
                       date,
