@@ -1,47 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_whatsaap_clone_riverpod/common/enums/message_enum.dart';
+import 'package:flutter_whatsaap_clone_riverpod/features/chat/widgets/display_text_file.dart';
 import 'package:flutter_whatsaap_clone_riverpod/shared/colors.dart';
 
-class SenderMessageCart extends StatelessWidget {
-  const SenderMessageCart(
-      {super.key, required this.message, required this.date});
-
+class ReceiverMessageCart extends StatelessWidget {
   final String message;
   final String date;
+  final MessageEnum messageEnum;
+
+  const ReceiverMessageCart(
+      {super.key,
+      required this.date,
+      required this.message,
+      required this.messageEnum});
 
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.centerRight,
+      alignment: Alignment.centerLeft,
       child: ConstrainedBox(
         constraints: BoxConstraints(
-            maxWidth: MediaQuery.sizeOf(context).width - 15, minWidth: 110),
+            minWidth: messageEnum.type == MessageEnum.text.type ? 110 : 0),
         child: Card(
           elevation: 1,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
-          color: messageColor,
+          color: receiverMessageColor,
           margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           child: Stack(
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                  left: 5,
+                  left: 10,
                   right: 30,
                   bottom: 20,
                   top: 5,
                 ),
-                child: SelectableText(
-                  message,
-                  style: const TextStyle(fontSize: 16),
-                ),
+                child: DisplayTextFile(message: message, type: messageEnum),
               ),
               Positioned(
-                bottom: 4,
+                bottom: 2,
                 right: 10,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
                       date,

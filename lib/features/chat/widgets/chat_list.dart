@@ -4,9 +4,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whatsaap_clone_riverpod/common/widgets/loading_wid.dart';
 import 'package:flutter_whatsaap_clone_riverpod/features/chat/controller/chat_controller.dart';
+import 'package:flutter_whatsaap_clone_riverpod/features/chat/widgets/receiver_message_cart.dart';
+import 'package:flutter_whatsaap_clone_riverpod/features/chat/widgets/sender_message_cart.dart';
 import 'package:flutter_whatsaap_clone_riverpod/models/message.dart';
-import 'package:flutter_whatsaap_clone_riverpod/shared/widgets/receiver_message_cart.dart';
-import 'package:flutter_whatsaap_clone_riverpod/shared/widgets/sender_message_cart.dart';
 import 'package:intl/intl.dart';
 
 class ChatList extends ConsumerStatefulWidget {
@@ -43,7 +43,10 @@ class _ChatListState extends ConsumerState<ChatList> {
         }
 
         SchedulerBinding.instance.addPostFrameCallback(
-          (timeStamp) => _messageScrollController.position.maxScrollExtent,
+          (timeStamp) => _messageScrollController.animateTo(
+              _messageScrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.bounceOut),
         );
 
         // WidgetsBinding.instance.addPostFrameCallback(
@@ -57,9 +60,17 @@ class _ChatListState extends ConsumerState<ChatList> {
             final message = snapshot.data![index];
             final timeSent = DateFormat.Hm().format(message.timeSent);
             if (message.senderId == FirebaseAuth.instance.currentUser!.uid) {
-              return SenderMessageCart(message: message.text, date: timeSent);
+              return SenderMessageCart(
+                message: message.text,
+                date: timeSent,
+                messageEnum: message.type,
+              );
             } else {
-              return ReceiverMessageCart(message: message.text, date: timeSent);
+              return ReceiverMessageCart(
+                message: message.text,
+                date: timeSent,
+                messageEnum: message.type,
+              );
             }
           },
         );

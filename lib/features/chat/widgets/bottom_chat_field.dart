@@ -1,7 +1,10 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_whatsaap_clone_riverpod/common/enums/message_enum.dart';
+import 'package:flutter_whatsaap_clone_riverpod/common/utils/utils.dart';
 import 'package:flutter_whatsaap_clone_riverpod/features/chat/controller/chat_controller.dart';
 import 'package:flutter_whatsaap_clone_riverpod/shared/colors.dart';
 
@@ -114,7 +117,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                 Expanded(
                   flex: 2,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: selectAndSendImage,
                     icon: const Icon(Icons.camera),
                   ),
                 ),
@@ -137,5 +140,20 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
         )
       ],
     );
+  }
+
+  void sendFileMessage(File file, MessageEnum messageEnum) {
+    ref.read(chatControllerProvider).sendFileMessage(
+        context: context,
+        file: file,
+        receiverUserId: widget.receiverUserId,
+        messageEnum: messageEnum);
+  }
+
+  void selectAndSendImage() async {
+    File? image = await pickImageFromGallery(context);
+    if (image != null) {
+      sendFileMessage(image, MessageEnum.image);
+    }
   }
 }
