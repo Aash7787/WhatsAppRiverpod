@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whatsaap_clone_riverpod/common/widgets/error_wid.dart';
 import 'package:flutter_whatsaap_clone_riverpod/common/widgets/loading_wid.dart';
@@ -14,13 +15,18 @@ import 'package:flutter_whatsaap_clone_riverpod/screens/mobile/mobile_screen_lay
 import 'shared/colors.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   runApp(
     const ProviderScope(
       child: MyApp(),
     ),
   );
+  Future.delayed(const Duration(seconds: 2), () {
+    FlutterNativeSplash.remove();
+  });
 }
 
 class MyApp extends ConsumerWidget {

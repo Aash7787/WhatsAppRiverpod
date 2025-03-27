@@ -1,0 +1,2 @@
+/home/aash/Documents/.flutter/flutter_whatsaap_clone_riverpod/android/app/.cxx/RelWithDebInfo/3y3u6934/x86/CMakeFiles/edit_cache.dir
+/home/aash/Documents/.flutter/flutter_whatsaap_clone_riverpod/android/app/.cxx/RelWithDebInfo/3y3u6934/x86/CMakeFiles/rebuild_cache.dir

@@ -108,6 +108,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Expanded(
                   flex: 70,
                   child: TextField(
+                    keyboardType: TextInputType.phone,
                     controller: phoneController,
                     decoration: const InputDecoration(
                       // labelText: 'Phone',

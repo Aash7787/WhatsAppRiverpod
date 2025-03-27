@@ -76,7 +76,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                 Expanded(
                   flex: 2,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: selectAndSendVideo,
                     icon: const Icon(
                       Icons.attach_file_rounded,
                       color: Colors.grey,
@@ -154,6 +154,13 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
     File? image = await pickImageFromGallery(context);
     if (image != null) {
       sendFileMessage(image, MessageEnum.image);
+    }
+  }
+
+  void selectAndSendVideo() async {
+    File? video = await pickVideoFromGallery(context);
+    if (video != null) {
+      sendFileMessage(video, MessageEnum.video);
     }
   }
 }

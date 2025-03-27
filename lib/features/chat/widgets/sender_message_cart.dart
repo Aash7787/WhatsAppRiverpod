@@ -20,23 +20,25 @@ class SenderMessageCart extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: ConstrainedBox(
         constraints: BoxConstraints(
-            maxWidth: MediaQuery.sizeOf(context).width - 15,
-            minWidth: messageEnum.type == MessageEnum.text.type ? 110 : 0),
+            maxWidth: messageEnum.type == MessageEnum.text.type
+                ? MediaQuery.sizeOf(context).width - 5
+                : MediaQuery.sizeOf(context).width - 55,
+            minWidth: messageEnum.type == MessageEnum.text.type ? 110 : 10),
         child: Card(
           elevation: 1,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
           color: messageColor,
-          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Stack(
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                  left: messageEnum.type == MessageEnum.text.type ? 5 : 5,
-                  right: messageEnum.type == MessageEnum.text.type ? 30 : 5,
-                  bottom: messageEnum.type == MessageEnum.text.type ? 20 : 25,
-                  top: messageEnum.type == MessageEnum.text.type ? 5 : 5,
+                  left: messageEnum.type == MessageEnum.text.type ? 7 : 5,
+                  right: messageEnum.type == MessageEnum.text.type ? 7 : 5,
+                  bottom: messageEnum.type == MessageEnum.text.type ? 30 : 25,
+                  top: messageEnum.type == MessageEnum.text.type ? 7 : 5,
                 ),
                 child: DisplayTextFile(message: message, type: messageEnum),
               ),

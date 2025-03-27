@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_whatsaap_clone_riverpod/common/enums/message_enum.dart';
+import 'package:flutter_whatsaap_clone_riverpod/features/chat/widgets/video_player_w.dart';
 
 class DisplayTextFile extends StatelessWidget {
   final String message;
@@ -18,9 +19,10 @@ class DisplayTextFile extends StatelessWidget {
           );
         } else if (type == MessageEnum.image) {
           return CachedNetworkImage(imageUrl: message);
-        } else {
-          return const SizedBox();
+        } else if (type == MessageEnum.video) {
+          return VideoPlayerW(videoUrl: message);
         }
+        return const SizedBox();
       },
     );
   }
