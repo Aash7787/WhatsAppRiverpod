@@ -1,11 +1,12 @@
 import 'dart:io';
 
+import 'package:enough_giphy_flutter/enough_giphy_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_whatsaap_clone_riverpod/common/constants/api_key.dart';
 import 'package:flutter_whatsaap_clone_riverpod/shared/colors.dart';
 import 'package:image_picker/image_picker.dart';
 
 void showSnackBar(BuildContext context, {required String text}) {
-
   if (!context.mounted) return;
 
   ScaffoldMessenger.of(context).showSnackBar(
@@ -34,11 +35,12 @@ Future<File?> pickImageFromGallery(BuildContext context) async {
   return image;
 }
 
-Future<File?> pickVideoFromGallery(BuildContext context) async{
+Future<File?> pickVideoFromGallery(BuildContext context) async {
   File? video;
   try {
-    final pickedVideo = await ImagePicker().pickVideo(source: ImageSource.gallery);
-    if (pickedVideo!= null) {
+    final pickedVideo =
+        await ImagePicker().pickVideo(source: ImageSource.gallery);
+    if (pickedVideo != null) {
       video = File(pickedVideo.path);
     }
   } catch (e) {
@@ -47,3 +49,4 @@ Future<File?> pickVideoFromGallery(BuildContext context) async{
   }
   return video;
 }
+

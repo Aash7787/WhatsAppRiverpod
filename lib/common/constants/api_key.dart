@@ -1,0 +1,1 @@
+const giphyKey = 'EaSeaZssufWvEJbVnVFHuGcK0JStyHzw';
