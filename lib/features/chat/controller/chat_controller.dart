@@ -47,7 +47,7 @@ class ChatController {
       required File file,
       required String receiverUserId,
       required MessageEnum messageEnum}) {
-        ref.read(userDataAuthProvider).whenData(
+    ref.read(userDataAuthProvider).whenData(
           (value) => chatRepository.sendFileMessage(
               context: context,
               file: file,
@@ -56,5 +56,12 @@ class ChatController {
               senderUserData: value!,
               messageEnum: messageEnum),
         );
-      }
+  }
+
+  void sendGifMessage(BuildContext context, String gifUrl, String receiverUserId) {
+    ref.read(userDataAuthProvider).whenData(
+          (value) => chatRepository.sendGifMessage(
+              context, gifUrl, receiverUserId, value!),
+        );
+  }
 }

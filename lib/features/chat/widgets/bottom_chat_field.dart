@@ -212,14 +212,26 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField>
   }
 
   void selectAndSendImage() async {
-    File? image = await pickImageFromGallery(context);
+    final File? image = await pickImageFromGallery(context);
     if (image != null) {
       sendFileMessage(image, MessageEnum.image);
     }
   }
 
+  void selectAndSendGif() async {
+    final gif = await pickGif(context);
+    if (!mounted) return; // Ensure the widget is still in the tree
+    if (gif != null) {
+      ref.read(chatControllerProvider).sendGifMessage(
+            context,
+            gif.url,
+            widget.receiverUserId,
+          );
+    }
+  }
+
   void selectAndSendVideo() async {
-    File? video = await pickVideoFromGallery(context);
+    final File? video = await pickVideoFromGallery(context);
     if (video != null) {
       sendFileMessage(video, MessageEnum.video);
     }

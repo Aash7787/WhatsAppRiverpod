@@ -50,3 +50,13 @@ Future<File?> pickVideoFromGallery(BuildContext context) async {
   return video;
 }
 
+Future<GiphyGif?> pickGif(BuildContext context) async {
+  GiphyGif? gif;
+  try {
+    gif = await Giphy.getGif(context: context, apiKey: giphyKey);
+  } catch (e) {
+    if (!context.mounted) return gif;
+    showSnackBar(context, text: 'Gif Error');
+  }
+  return gif;
+}
